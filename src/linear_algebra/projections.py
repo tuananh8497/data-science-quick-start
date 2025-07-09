@@ -28,8 +28,8 @@ def vector_projection(u, v):
 
 if __name__ == '__main__':
     # Example usage:
-    u = np.array([4, 2])
-    v = np.array([1, 1])
+    u = np.array([4, 2, 3, 4])
+    v = np.array([1, 1, 1, 1])
 
     scalar_proj = scalar_projection(u, v)
     vector_proj = vector_projection(u, v)
