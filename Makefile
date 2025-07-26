@@ -6,3 +6,11 @@ help: # Show help for each of the Makefile recipes.
 setup: # Set up the environment.
 	@echo "Setting up the environment..."
 	./local_setup/setup.sh
+
+clean-log: # Clean up log files.
+	@echo "Cleaning up log files..."
+	@rm -f ./data/output/*
+
+run-processing-image: # Run the Python script.
+	@echo "Running the Python script..."
+	@python3 ./src/image_processing/py-ollama.py
