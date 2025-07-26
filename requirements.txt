@@ -6,3 +6,6 @@ numpy==2.3.1
 pandas==2.3.1
 scikit-learn==1.7.0
 manimgl==1.7.2
+pytesseract==0.3.13
+pillow==11.3.0
+ollama==0.5.1
