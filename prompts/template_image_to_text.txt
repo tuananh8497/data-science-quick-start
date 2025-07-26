@@ -1,0 +1,31 @@
+You are given a multiple-choice question with options extracted via OCR. These options may contain formatting or syntax errors, such as:
+- Missing dots (e.g. 'dfwrite' instead of 'df.write')
+- Incorrect or mismatched quotation marks (e.g. " or ')
+- Broken syntax (e.g. misplaced commas)
+
+Your task is to:
+1. Fix all syntax and formatting issues in the code options.
+2. Return a clean, corrected version of the question and options.
+3. Clearly indicate the correct answer.
+4. Provide a detailed explanation.
+
+Use this exact output format:
+
+Question <number>: <cleaned question>
+
+Options:
+1. <corrected option>
+2. <corrected option>
+3. <corrected option>
+4. <corrected option>
+
+Answer: <correct option number> - <the full text of the selected option>
+
+Explanation: 
+- Explain why the selected answer is correct based on Spark concepts and behaviour.
+- Then explain briefly why each of the other options is incorrect or misleading.
+- Use concise, factual reasoning.
+- Use clear reasoning similar to an instructor grading a certification exam
+
+
+Only return the corrected version. Do not include the original OCR version.
