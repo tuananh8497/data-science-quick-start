@@ -211,3 +211,5 @@ scratches/
 data/output/
 
 .DS_Store
+
+data/input/
