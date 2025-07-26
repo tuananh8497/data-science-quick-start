@@ -209,3 +209,5 @@ __marimo__/
 scratches/
 
 data/output/
+
+.DS_Store
