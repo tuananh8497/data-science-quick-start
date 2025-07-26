@@ -12,5 +12,6 @@ clean-log: # Clean up log files.
 	@rm -f ./data/output/*
 
 run-processing-image: # Run the Python script.
+	$(MAKE) clean-log
 	@echo "Running the Python script..."
 	@python3 ./src/image_processing/py-ollama.py
