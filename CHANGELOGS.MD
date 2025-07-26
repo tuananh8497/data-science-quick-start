@@ -9,4 +9,5 @@
 - Enhanced error handling for file operations to improve robustness.
 
 ### Changed
-- Improved logging throughout the script for better traceability and
+- Improved logging throughout the script for better traceability and debugging
+- Add pillow, pytesseract and ollama to requirements.txt
