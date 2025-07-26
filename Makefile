@@ -9,7 +9,8 @@ setup: # Set up the environment.
 
 clean-log: # Clean up log files.
 	@echo "Cleaning up log files..."
-	@rm -f ./data/output/*
+	@rm -f ./data/output/logs/*
+	@rm -f ./data/output/aggregated/*
 
 run-processing-image: # Run the Python script.
 	$(MAKE) clean-log
