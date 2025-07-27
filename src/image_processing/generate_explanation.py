@@ -1,25 +1,29 @@
-# generate_explanation.py
+import os
+from dotenv import load_dotenv
 import logging
 from pathlib import Path
 from ollama import chat
 import re
 from dataclasses import dataclass
+from src.utils.logging import log_response_stats
 
-# --- Config ---
+# Load environment variables from .env
+load_dotenv(dotenv_path="./local_setup/config.env")
+
 @dataclass
 class Config:
-    input_file: Path = Path("./data/output/aggregated/questions.md")
-    output_file: Path = Path("./data/output/aggregated/explanations.md")
-    model: str = "gemma3:12b"
-    instruction_file: Path = Path("./prompts/explain_spark_answer.txt")
-
+    input_file: str
+    output_file: str
+    model: str
+    instruction_file: str
 
 # --- Main ---
 def main():
-    config = Config()
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s [%(levelname)s] %(message)s"
+    config = Config(
+        input_file=Path(os.getenv("EXPLAIN_INPUT_FILE", "./data/output/aggregated/questions.md")),
+        output_file=Path(os.getenv("EXPLAIN_OUTPUT_FILE", "./data/output/aggregated/explanations.md")),
+        model=os.getenv("EXPLAIN_MODEL", "gemma3:12b"),
+        instruction_file=Path(os.getenv("EXPLAIN_INSTRUCTION_FILE", "./prompts/explain_spark_answer.txt"))
     )
 
     # Read the input markdown file
@@ -38,16 +42,16 @@ def main():
         # Extract question number (assuming format like "Question 1:")
         question_match = re.search(r"Question\s+(\d+):", section)
         if not question_match:
-            logging.warning("⚠️ No question number found in section.")
             continue
 
         question_number = question_match.group(1)
         question_options = section.strip()
-        print(question_options)
 
         # Generate explanation using the model
         prompt = f"{instruction}\n\nExplain the following answer: {question_options}"
         response = chat(model=config.model, messages=[{"role": "user", "content": prompt}])
+        log_response_stats(response)         
+        
         explanation = response.message.content.strip()
 
         # Format the output
@@ -59,7 +63,6 @@ def main():
         f.write("\n".join(explanations))
 
     logging.info(f"✅ Explanations written to {config.output_file}")
-
 
 if __name__ == "__main__":
     main()

@@ -9,3 +9,4 @@ manimgl==1.7.2
 pytesseract==0.3.13
 pillow==11.3.0
 ollama==0.5.1
+python-dotenv==1.1.1
