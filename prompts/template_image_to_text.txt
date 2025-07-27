@@ -6,8 +6,6 @@ You are given a multiple-choice question with options extracted via OCR. These o
 Your task is to:
 1. Fix all syntax and formatting issues in the code options.
 2. Return a clean, corrected version of the question and options.
-3. Clearly indicate the correct answer.
-4. Provide a detailed explanation.
 
 Use this exact output format:
 
@@ -18,14 +16,5 @@ Options:
 2. <corrected option>
 3. <corrected option>
 4. <corrected option>
-
-Answer: <correct option number> - <the full text of the selected option>
-
-Explanation: 
-- Explain why the selected answer is correct based on Spark concepts and behaviour.
-- Then explain briefly why each of the other options is incorrect or misleading.
-- Use concise, factual reasoning.
-- Use clear reasoning similar to an instructor grading a certification exam
-
 
 Only return the corrected version. Do not include the original OCR version.
