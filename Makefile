@@ -15,4 +15,8 @@ clean-log: # Clean up log files.
 run-processing-image: # Run the Python script.
 	$(MAKE) clean-log
 	@echo "Running the Python script..."
-	@python3 ./src/image_processing/py-ollama.py
+	@python -m src.image_processing.py-ollama
+
+run-generate-explanation: # Run the Python script.
+	@echo "Running the Python script..."
+	@python -m src.image_processing.generate_explanation

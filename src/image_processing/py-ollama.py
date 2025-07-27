@@ -4,28 +4,23 @@ import re
 from pathlib import Path
 from typing import List, Tuple
 from dataclasses import dataclass
-
+import os
 import pytesseract
 from PIL import Image
 from ollama import chat
+from dotenv import load_dotenv
+from src.utils.logging import log_response_stats
 
 # --- Config ---
+load_dotenv(dotenv_path="./local_setup/config.env")
 
 @dataclass
 class Config:
-    model: str = "gemma3:1b"
-    input_dir: Path = Path("./data/input")
-    log_dir: Path = Path("./data/output/logs")
-    output_file: Path = Path("./data/output/aggregated/questions.md")
-
-
-# --- Logging ---
-
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(message)s"
-)
-
+    model: str
+    input_dir: str
+    log_dir: str
+    output_file: str
+    prompt_template: str
 
 # --- Utilities ---
 
@@ -51,12 +46,7 @@ def build_prompt(ocr_text: str, prompt_template: str) -> str:
 
 def call_model(prompt: str, model: str) -> str:
     response = chat(model=model, messages=[{"role": "user", "content": prompt}])
-    logging.info(f"Inference Time (ms): {response.total_duration / 1_000_000:.2f}")
-    logging.info(f"Prompt Tokens: {response.prompt_eval_count}")
-    logging.info(f"Response Tokens: {response.eval_count}")
-    if response.total_duration > 0:
-        rps = response.eval_count / (response.total_duration / 1_000_000_000)  # ns to s
-        logging.info(f"Response Speed: {rps:.2f} tokens/sec")    
+    log_response_stats(response)
     return response.message.content.strip()
 
 
@@ -90,8 +80,13 @@ def generate_markdown(ollama_outputs: List[Tuple[Path, str]], output_path: Path)
 
 def main():
     cfg = Config(
-        model="gemma3:12b",
+        model=os.getenv("OLAMA_MODEL", "gemma3:1b"),
+        input_dir=Path(os.getenv("OLAMA_INPUT_DIR", "./data/input")),
+        log_dir=Path(os.getenv("OLAMA_LOG_DIR", "./data/output/logs")),
+        output_file=Path(os.getenv("OLAMA_OUTPUT_FILE", "./data/output/aggregated/questions.md")),
+        prompt_template=os.getenv("OLAMA_PROMPT_TEMPLATE", "template_image_to_text")
     )
+
     logging.info(f"Using model: {cfg.model}")
     cfg.log_dir.mkdir(parents=True, exist_ok=True)
     cfg.output_file.parent.mkdir(parents=True, exist_ok=True)

@@ -213,3 +213,5 @@ data/output/
 .DS_Store
 
 data/input/
+
+local_setup/*.env
