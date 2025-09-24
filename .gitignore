@@ -215,3 +215,7 @@ data/output/
 data/input/
 
 local_setup/*.env
+
+# MLflow tracking
+mlruns/
+mlartifacts/
